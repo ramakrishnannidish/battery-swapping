@@ -190,7 +190,7 @@ func TestRegisterOrder(t *testing.T) {
 			[]byte("0"),        // bidStatus
 			[]byte("100"),      // endTime
 			[]byte("4"),        // orderID
-			[]byte("2.5"),      // onMarketPrice
+			[]byte("0"),        // onMarketPrice
 			[]byte("200"),      // orderCost
 			[]byte("5"),        // paymentID
 			[]byte("slot1234"), // slotID
@@ -198,7 +198,7 @@ func TestRegisterOrder(t *testing.T) {
 			[]byte("3.5"),      // unitCost
 			[]byte("6"),        // userID
 			[]byte("50"),       // slotExecDate
-			[]byte("Buy"),      // action
+			[]byte("0"),        // action
 		})
 
 		assert.Equal(t, int32(shim.OK), response.GetStatus(), fmt.Sprintf("Unexpected error: %s", response.GetMessage()))
@@ -241,7 +241,7 @@ func TestRegisterOrder(t *testing.T) {
 			[]byte("3.5"),      // unitCost
 			[]byte("6"),        // userID
 			[]byte("50"),       // slotExecDate
-			[]byte("Buy"),      // action
+			[]byte("0"),        // action
 		})
 
 		assert.Equal(t, int32(shim.OK), response.GetStatus(), fmt.Sprintf("Unexpected error: %s", response.GetMessage()))
@@ -270,7 +270,7 @@ func TestRegisterOrder(t *testing.T) {
 			[]byte("3.5"),      // unitCost
 			[]byte("6"),        // userID
 			[]byte("50"),       // slotExecDate
-			[]byte("Buy"),      // action
+			[]byte("0"),        // action
 		})
 
 		assert.Equal(t, int32(shim.OK), response.GetStatus(), fmt.Sprintf("Unexpected error: %s", response.GetMessage()))
@@ -352,7 +352,7 @@ func TestReadOrder(t *testing.T) {
 		[]byte("3.5"),      // unitCost
 		[]byte("6"),        // userID
 		[]byte("50"),       // slotExecDate
-		[]byte("Buy"),      // action
+		[]byte("0"),        // action
 	})
 	assert.Equal(t, int32(shim.OK), response.GetStatus(), fmt.Sprintf("Unexpected error: %s", response.GetMessage()))
 

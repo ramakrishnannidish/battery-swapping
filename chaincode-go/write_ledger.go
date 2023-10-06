@@ -276,12 +276,12 @@ func RegisterOrder(stub shim.ChaincodeStubInterface, args []string) pb.Response 
 	fmt.Println("starting RegisterOrder")
 
 	// We expect 13 arguments.
-	if len(args) != 13 {
+	if len(args) != 12 {
 		return shim.Error("Incorrect number of arguments. Expecting 12.")
 	}
 
 	// Parsing ID first to check existence.
-	orderID, err := strconv.ParseInt(args[3], 10, 64)
+	orderID, err := strconv.ParseInt(args[2], 10, 64)
 	if err != nil {
 		return shim.Error("Failed to parse order ID: " + err.Error())
 	}
@@ -322,53 +322,47 @@ func RegisterOrder(stub shim.ChaincodeStubInterface, args []string) pb.Response 
 		}
 	}
 
-	endTime, err := strconv.ParseInt(args[2], 10, 64)
-	if err != nil {
-		return shim.Error("Failed to parse EndTime: " + err.Error())
-	}
+	onMarketPrice := args[3]
 
-	onMarketPrice := args[4]
-
-	orderCost, err := strconv.ParseFloat(args[5], 64)
+	orderCost, err := strconv.ParseFloat(args[4], 64)
 	if err != nil {
 		return shim.Error("Failed to parse OrderCost: " + err.Error())
 	}
 
-	paymentID, err := strconv.ParseInt(args[6], 10, 64)
+	paymentID, err := strconv.ParseInt(args[5], 10, 64)
 	if err != nil {
 		return shim.Error("Failed to parse PaymentID: " + err.Error())
 	}
 
-	slotID := args[7]
-	totalQuantity, err := strconv.ParseInt(args[8], 10, 64)
+	slotID := args[6]
+	totalQuantity, err := strconv.ParseInt(args[7], 10, 64)
 	if err != nil {
 		return shim.Error("Failed to parse TotalQuantity: " + err.Error())
 	}
 
-	unitCost, err := strconv.ParseFloat(args[9], 64)
+	unitCost, err := strconv.ParseFloat(args[8], 64)
 	if err != nil {
 		return shim.Error("Failed to parse UnitCost: " + err.Error())
 	}
 
-	userID, err := strconv.ParseInt(args[10], 10, 64)
+	userID, err := strconv.ParseInt(args[9], 10, 64)
 	if err != nil {
 		return shim.Error("Failed to parse UserID: " + err.Error())
 	}
 
-	slotExecDate, err := strconv.ParseInt(args[11], 10, 64) // Add this line to parse SlotExecDate
+	slotExecDate, err := strconv.ParseInt(args[10], 10, 64) // Add this line to parse SlotExecDate
 	if err != nil {
 		return shim.Error("Failed to parse SlotExecDate: " + err.Error())
 	}
 
-	action, ok := actionMap[args[12]]
-	if !ok {
-		return shim.Error("Invalid action provided.")
+	action, err := strconv.ParseInt(args[11], 10, 64)
+	if err != nil {
+		return shim.Error("Failed to parse action: " + err.Error())
 	}
 
 	// Assign parsed values to the order struct
 	order.BidMatchID = bidMatchID
 	order.BidStatus = EnergyBidStatus(bidStatus)
-	order.EndTime = endTime
 	order.OnMarketPrice = onMarketPrice
 	order.OrderCost = orderCost
 	order.PaymentID = paymentID
@@ -378,7 +372,7 @@ func RegisterOrder(stub shim.ChaincodeStubInterface, args []string) pb.Response 
 	order.UpdatedOn = time.Now().Unix()
 	order.UserID = userID
 	order.SlotExecDate = slotExecDate // Set the SlotExecDate
-	order.UserAction = action
+	order.UserAction = Action(action)
 
 	// Store the order back in the ledger.
 	orderAsBytes, _ := json.Marshal(order)

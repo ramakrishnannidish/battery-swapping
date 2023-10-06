@@ -65,7 +65,6 @@ type Order struct {
 	BidMatchID    int64           `json:"bidMatchId"`
 	BidStatus     EnergyBidStatus `json:"bidStatus"`
 	CreatedOn     int64           `json:"createdOn"`
-	EndTime       int64           `json:"endTime"`
 	ID            int64           `json:"id"`
 	OnMarketPrice string          `json:"onMarketPrice"`
 	OrderCost     float64         `json:"status"`
